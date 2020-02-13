@@ -1,6 +1,4 @@
-import tkinter as tk
-from tkinter import filedialog
-import bokeh, bokeh.plotting, bokeh.layouts, json, os, webbrowser
+import bokeh, bokeh.plotting, bokeh.layouts, json, os, webbrowser, sys
 
 # Generating graph
 def MakeGraph(file, output):
@@ -46,10 +44,9 @@ def ShowGraph(file, output):
     """Shows a html document with graphs of the results"""
     webbrowser.open('file://' + os.path.realpath(MakeGraph(file, output)))
 
-# File Dialog
 if __name__ == "__main__":
-    root = tk.Tk()
-    root.withdraw()
-
-    file_path = filedialog.askopenfilename()
-    ShowGraph(open(file_path, "r"), "Graph.html")
+    output_file = "Graph.html"
+    if len(sys.argv) > 1:
+        if len(sys.argv) > 2:
+            output_file = sys.argv[2]
+        ShowGraph(open(sys.argv[1]), output_file)
