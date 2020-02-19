@@ -1,4 +1,10 @@
-import bokeh, bokeh.plotting, bokeh.layouts, json, os, webbrowser, sys
+import json
+import os
+import webbrowser
+import sys
+import bokeh
+import bokeh.plotting
+import bokeh.layouts
 
 # Generating graph
 def MakeGraph(file, output):
@@ -24,7 +30,6 @@ def MakeGraph(file, output):
                 assert False
         except:
             fail += 1
-        
         y_fail.append(fail)
         y_success.append(success)
 
@@ -50,3 +55,4 @@ if __name__ == "__main__":
         if len(sys.argv) > 2:
             output_file = sys.argv[2]
         ShowGraph(open(sys.argv[1]), output_file)
+        
