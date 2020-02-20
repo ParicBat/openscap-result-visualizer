@@ -1,7 +1,7 @@
 import json
 import os
 import webbrowser
-import sys
+import argparse
 import bokeh
 import bokeh.plotting
 import bokeh.layouts
@@ -50,8 +50,9 @@ def ShowGraph(file, output):
     webbrowser.open('file://' + os.path.realpath(makeGraph(file, output)))
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Creates a graph of tests from json file.")
+    parser.add_argument("file", help="JSON file to get data from.")
+    parser.add_argument("output_file", nargs='?', default="Graph.html")
+    args = parser.parse_args()
     output_file = "Graph.html"
-    if len(sys.argv) > 1:
-        if len(sys.argv) > 2:
-            output_file = sys.argv[2]
-        ShowGraph(open(sys.argv[1]), output_file)
+    ShowGraph(open(args.file), args.output_file)
