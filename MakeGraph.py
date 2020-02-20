@@ -22,18 +22,23 @@ def makeGraph(file, output):
     fail = 0
     success = 0
 
-    bar_graph = bokeh.plotting.figure(
-        x_range=["Succeeded", "Failed"],
-        title="Succeeded and Failed tests (Bar)",
-        toolbar_location=None, tools="",
-        y_axis_label="Number of Tests")
-
     for test in data:
         if checkTest(test):
             success += 1
         else:
             fail += 1
-    bar_graph.vbar(x=["Succeeded", "Failed"], top=[success, fail], width=0.5, color=["blue", "red"])
+
+    bar_graph = bokeh.plotting.figure(
+        x_range=[f"Succeeded ({success})", f"Failed ({fail})"],
+        title="Succeeded and Failed tests (Bar)",
+        toolbar_location=None, tools="",
+        y_axis_label="Number of Tests")
+
+    bar_graph.vbar(
+        x=[f"Succeeded ({success})", f"Failed ({fail})"],
+        top=[success, fail],
+        width=0.5,
+        color=["blue", "red"])
 
     plot = bokeh.layouts.row(bar_graph)
 
