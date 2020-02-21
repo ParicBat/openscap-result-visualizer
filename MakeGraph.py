@@ -6,6 +6,7 @@ import bokeh
 import bokeh.plotting
 import bokeh.layouts
 
+
 def checkTest(test):
     """Checks if the test has failed or succeeded. Returns True if suceeded."""
     try:
@@ -14,6 +15,14 @@ def checkTest(test):
     except:
         pass
     return False
+
+
+def checkTests(tests):
+    results = []
+    for test in tests:
+        results.append(checkTest)
+    return results
+
 
 def makeGraph(file, output):
     """Creates a html document with graphs of the results. Outputs the location of the file"""
@@ -45,9 +54,11 @@ def makeGraph(file, output):
     bokeh.plotting.output_file(output)
     return bokeh.plotting.save(plot)
 
+
 def ShowGraph(file, output):
     """Shows a html document with graphs of the results"""
     webbrowser.open('file://' + os.path.realpath(makeGraph(file, output)))
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Creates a graph of tests from json file.")
