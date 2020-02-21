@@ -26,7 +26,7 @@ def checkTests(tests):
 
 
 def makeBarGraph(file):
-    """Creates a html document with graphs of the results. Outputs the location of the file"""
+    """Creates a graph from json file with the results."""
     data = json.load(file)
 
     fail = 0
@@ -58,6 +58,7 @@ def sortByDateInJSON(value):
 
 
 def makeLineGraph(files):
+    """Creates a line graph from multiple json files with the results"""
     jsonData = []
     for file in files:
         jsonData.append(json.load(open(file)))
