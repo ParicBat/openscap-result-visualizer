@@ -11,9 +11,15 @@ import datetime
 def checkTest(test):
     """Checks if the test has failed or succeeded. Returns True if suceeded."""
     try:
-        if test["final_scan"]:
+        if test["preparation"] and test["initial_scan"] and test["remediation"] and test["final_scan"]:
             return True
-    except:
+        else:
+            return False
+    except KeyError:
+        if test.get("preparation", False) and test.get("initial_scan", False):
+            return True
+        else:
+            return False
         pass
     return False
 
@@ -58,7 +64,7 @@ def lastDate(value):
 
 
 def getResults(data):
-    """Returns a dicionary with the results.
+    """Returns a dictionary with the results.
 
     Keys:  
     fail  - Failed results  
