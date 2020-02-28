@@ -12,3 +12,6 @@ This program takes result data from OpenSCAP and creates it into graphs.
 
 `--output_file [OUTPUT_FILE]` or `-o [OUTPUT_FILE]`  
 - Specifies the output file for the graphs
+
+`-p` or `--progress`  
+- Print out progress.

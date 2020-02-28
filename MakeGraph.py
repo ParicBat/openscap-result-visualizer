@@ -10,18 +10,10 @@ import datetime
 
 def checkTest(test):
     """Checks if the test has failed or succeeded. Returns True if suceeded."""
-    try:
-        if test["preparation"] and test["initial_scan"] and test["remediation"] and test["final_scan"]:
-            return True
-        else:
-            return False
-    except KeyError:
-        if test.get("preparation", False) and test.get("initial_scan", False):
-            return True
-        else:
-            return False
-        pass
-    return False
+    if test["preparation"] and test.get("initial_scan", False) and test.get("remediation", True) and test.get("final_scan", True):
+        return True
+    else:
+        return False
 
 
 def checkTests(tests):
@@ -116,12 +108,19 @@ def makeLineGraph(files):
     return graph
 
 
-def MakeGraph(files, output, show=False):
+def MakeGraph(files, output, show=False, out=False):
     """Makes a html document with graphs of the results"""
+    progress = 1
+    operations = len(files)+2
+    if out: print(f"Creating line graph ({progress}/{operations})...")
     graphs = [makeLineGraph(files)]
     for file in files:
+        progress += 1
+        if out: print(f"Creating bar graph from file {file} ({progress}/{operations})...")
         graphs.append(makeBarGraph(open(file)))
 
+    progress += 1
+    if out: print(f"Creating file ({progress}/{operations})...")
     plot = bokeh.layouts.column(graphs)
     bokeh.plotting.output_file(output)
     bokeh.plotting.save(plot)
@@ -136,8 +135,6 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output_file", nargs='?', default="Graph.html",
                         help="Specifies the output file for the graphs.")
     parser.add_argument("-s", "--show", action="store_true", help="Shows the results.")
+    parser.add_argument("-p", "--progress", action="store_true", help="Print out progress.")
     args = parser.parse_args()
-    if args.show:
-        MakeGraph(args.files, args.output_file, True)
-    else:
-        MakeGraph(args.files, args.output_file)
+    MakeGraph(args.files, args.output_file, args.show, args.progress)
