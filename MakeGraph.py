@@ -53,7 +53,7 @@ def makeBarGraph(file):
     return bar_graph
 
 
-def sortByDateInJSON(value):
+def lastDate(value):
     return datetime.datetime.strptime(value[-1]["run_timestamp"], "%Y-%m-%d %H:%M")
 
 
@@ -63,12 +63,12 @@ def makeLineGraph(files):
     for file in files:
         jsonData.append(json.load(open(file)))
 
-    jsonData.sort(key=sortByDateInJSON)
+    jsonData.sort(key=lastDate)
     data = []
     lastTestDates = []
     for tests in jsonData:
         data.append(checkTests(tests))
-        lastTestDates.append(datetime.datetime.strptime(tests[-1]["run_timestamp"], "%Y-%m-%d %H:%M"))
+        lastTestDates.append(lastDate(tests))
 
     lastTestDates.sort()
     for i in range(len(lastTestDates)):
@@ -114,7 +114,7 @@ def ShowGraph(files, output):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Creates a graph of tests from json file.")
-    parser.add_argument("-f", "--files", help="JSON file to get data from.", nargs="+")
+    parser.add_argument("files", help="JSON file to get data from.", nargs="+")
     parser.add_argument("-o", "--output_file", nargs='?', default="Graph.html")
     args = parser.parse_args()
     ShowGraph(args.files, args.output_file)
