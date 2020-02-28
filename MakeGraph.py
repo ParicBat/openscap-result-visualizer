@@ -127,7 +127,8 @@ def MakeGraph(files, output, show=False):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Creates a graph of tests from json file.")
     parser.add_argument("files", help="JSON file to get data from.", nargs="+")
-    parser.add_argument("-o", "--output_file", nargs='?', default="Graph.html")
+    parser.add_argument("-o", "--output_file", nargs='?', default="Graph.html",
+                        help="Specifies the output file for the graphs.")
     parser.add_argument("-s", "--show", action="store_true", help="Shows the results.")
     args = parser.parse_args()
     if args.show:
