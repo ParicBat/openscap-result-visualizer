@@ -1,7 +1,6 @@
 import json
 import os
 import webbrowser
-import argparse
 import bokeh
 import bokeh.plotting
 import bokeh.layouts
@@ -29,14 +28,11 @@ def makeBarGraph(files):
     for file in files:
         jsondata.append(json.load(open(file)))
 
-    fail = 0
-    success = 0
     jsondata.sort(key=lastDate)
     data = []
     for tests in jsondata:
         data.append(checkTests(tests))
     rs = getResults(data)
-    
 
     bar_graph = bokeh.plotting.figure(
         x_range=[f"Succeeded ({rs['pass'][-1]})", f"Failed ({rs['fail'][-1]})"],
@@ -127,14 +123,3 @@ def MakeGraph(files, output, show=False, out=False):
 
     if show:
         webbrowser.open('file://' + os.path.realpath(output))
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Creates a graph of tests from json file.")
-    parser.add_argument("files", help="JSON files or folder to get data from.", nargs="+")
-    parser.add_argument("-o", "--output_file", nargs='?', default="Graph.html",
-                        help="Specifies the output file for the graphs.")
-    parser.add_argument("-s", "--show", action="store_true", help="Shows the results.")
-    parser.add_argument("-p", "--progress", action="store_true", help="Print out progress.")
-    args = parser.parse_args()
-    MakeGraph(args.files, args.output_file, args.show, args.progress)
