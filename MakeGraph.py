@@ -23,22 +23,24 @@ def checkTests(tests):
     return results
 
 
-def makeBarGraph(file):
+def makeBarGraph(files):
     """Creates a graph from json file with the results."""
-    data = json.load(file)
+    data = []
+    for file in files:
+        data.append(json.load(open(file)))
 
     fail = 0
     success = 0
-
-    for test in data:
-        if checkTest(test):
-            success += 1
-        else:
-            fail += 1
+    for tests in data:
+        for test in tests:
+            if checkTest(test):
+                success += 1
+            else:
+                fail += 1
 
     bar_graph = bokeh.plotting.figure(
         x_range=[f"Succeeded ({success})", f"Failed ({fail})"],
-        title=f"Succeeded and Failed tests (Bar) ({file.name})",
+        title=f"Succeeded and Failed tests (Bar)",
         toolbar_location=None, tools="wheel_zoom",
         y_axis_label="Number of Tests")
 
@@ -110,17 +112,16 @@ def makeLineGraph(files):
 
 def MakeGraph(files, output, show=False, out=False):
     """Makes a html document with graphs of the results"""
-    progress = 1
-    operations = len(files)+2
-    if out: print(f"Creating line graph ({progress}/{operations})...")
+    if out:
+        print("Creating line graph...")
     graphs = [makeLineGraph(files)]
-    for file in files:
-        progress += 1
-        if out: print(f"Creating bar graph from file {file} ({progress}/{operations})...")
-        graphs.append(makeBarGraph(open(file)))
 
-    progress += 1
-    if out: print(f"Creating file ({progress}/{operations})...")
+    if out:
+        print("Creating bar graph...")
+    graphs.append(makeBarGraph(files))
+
+    if out:
+        print("Creating file...")
     plot = bokeh.layouts.column(graphs)
     bokeh.plotting.output_file(output)
     bokeh.plotting.save(plot)
