@@ -25,28 +25,27 @@ def checkTests(tests):
 
 def makeBarGraph(files):
     """Creates a graph from json file with the results."""
-    data = []
+    jsondata = []
     for file in files:
-        data.append(json.load(open(file)))
+        jsondata.append(json.load(open(file)))
 
     fail = 0
     success = 0
-    for tests in data:
-        for test in tests:
-            if checkTest(test):
-                success += 1
-            else:
-                fail += 1
+    jsondata.sort(key=lastDate)
+    data = []
+    for tests in jsondata:
+        data.append(checkTests(tests))
+    rs = getResults(data)
+    
 
     bar_graph = bokeh.plotting.figure(
-        x_range=[f"Succeeded ({success})", f"Failed ({fail})"],
-        title=f"Succeeded and Failed tests (Bar)",
-        toolbar_location=None, tools="wheel_zoom",
+        x_range=[f"Succeeded ({rs['pass'][-1]})", f"Failed ({rs['fail'][-1]})"],
+        title=f"Succeeded and Failed tests from latest file ({jsondata[-1][-1]['run_timestamp']})",
         y_axis_label="Number of Tests")
 
     bar_graph.vbar(
-        x=[f"Succeeded ({success})", f"Failed ({fail})"],
-        top=[success, fail],
+        x=[f"Succeeded ({rs['pass'][-1]})", f"Failed ({rs['fail'][-1]})"],
+        top=[rs['pass'][-1], rs['fail'][-1]],
         width=0.5,
         color=["blue", "red"])
 
@@ -92,16 +91,14 @@ def makeLineGraph(files):
         data.append(checkTests(tests))
         lastTestDates.append(lastDate(tests))
 
-    lastTestDates.sort()
     for i in range(len(lastTestDates)):
-        lastTestDates[i] = str(lastTestDates[i])
+        lastTestDates[i] = lastTestDates[i].strftime("%Y-%m-%d %H:%M")
 
     results = getResults(data)
 
     graph = bokeh.plotting.figure(x_range=lastTestDates,
                                   title="Tests in test files sorted by date",
-                                  toolbar_location=None,
-                                  tools="wheel_zoom",
+                                  plot_width=1280,
                                   y_axis_label="Number of Tests")
 
     graph.line(lastTestDates, results["pass"], line_width=2, line_color="blue")
@@ -112,6 +109,8 @@ def makeLineGraph(files):
 
 def MakeGraph(files, output, show=False, out=False):
     """Makes a html document with graphs of the results"""
+    if os.path.exists(files[0]):
+        files = [os.path.join(files[0], f) for f in os.listdir(files[0])]
     if out:
         print("Creating line graph...")
     graphs = [makeLineGraph(files)]
@@ -132,7 +131,7 @@ def MakeGraph(files, output, show=False, out=False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Creates a graph of tests from json file.")
-    parser.add_argument("files", help="JSON file to get data from.", nargs="+")
+    parser.add_argument("files", help="JSON files or folder to get data from.", nargs="+")
     parser.add_argument("-o", "--output_file", nargs='?', default="Graph.html",
                         help="Specifies the output file for the graphs.")
     parser.add_argument("-s", "--show", action="store_true", help="Shows the results.")

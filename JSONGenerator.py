@@ -7,12 +7,13 @@ from datetime import datetime, date
 
 parser = argparse.ArgumentParser(description="Creates a random OpenSCAP result json file.")
 parser.add_argument("path", help="File(s) to create", nargs="+")
+parser.add_argument("-rt", "--result_types", help="JSON file to get test result types from.", nargs="?", default="[{\"preparation\": true, \"initial_scan\": true}, {\"preparation\": false}]")
 args = parser.parse_args()
 
 for i in range(len(args.path)):
     f = open(args.path[i], "w")
     tests = []
-    testtypes = [{"preparation": True, "initial_scan": True}, {"preparation": False}]
+    testtypes = json.loads(args.result_types)
 
     for i in range(random.randint(2, 100)):
         test = testtypes[random.randint(0, len(testtypes)-1)]
