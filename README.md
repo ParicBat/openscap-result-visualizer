@@ -6,7 +6,7 @@ This program takes result data from OpenSCAP and creates it into graphs.
 ## Arguments
 ### Required arguments
 `files`  
-- Specifies the files to get results from
+- Specifies the files or a folder to get data from.
 
 ### Optional arguments
 `--show` or `-s`  
