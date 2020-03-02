@@ -20,3 +20,14 @@ def test_getResults():
     for tests in jsondata:
         data.append(oscaprv.checkTests(tests))
     assert oscaprv.getResults(data) == {"fail": [0, 1], "pass": [1, 0]}
+
+def test_lastDate():
+    value = [[{"run_timestamp": "2019-11-08 20:05"}], [{"run_timestamp": "2019-11-08 20:04"}]]
+    value.sort(key=oscaprv.lastDate)
+    assert value == [[{"run_timestamp": "2019-11-08 20:04"}], [{"run_timestamp": "2019-11-08 20:05"}]]
+    value = [[{"run_timestamp": "2029-11-08 20:04"}], [{"run_timestamp": "2020-11-08 20:04"}]]
+    value.sort(key=oscaprv.lastDate)
+    assert value == [[{"run_timestamp": "2020-11-08 20:04"}], [{"run_timestamp": "2029-11-08 20:04"}]]
+    value = [[{"run_timestamp": "2002-11-08 20:05"}], [{"run_timestamp": "2020-02-29 20:04"}]]
+    value.sort(key=oscaprv.lastDate)
+    assert value == [[{"run_timestamp": "2002-11-08 20:05"}], [{"run_timestamp": "2020-02-29 20:04"}]]
