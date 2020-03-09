@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "oscaprv",
+            "type": "python",
+            "request": "launch",
+            "module": "oscaprv",
+            "args": ["-o Graphx.html", "-s", "-p", "test_results"],
+            "stopOnEntry": true
+        }
+    ]
+}
