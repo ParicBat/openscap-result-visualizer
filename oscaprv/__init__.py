@@ -43,9 +43,9 @@ def lastDate(value):
 def getResults(data):
     """Returns a dictionary with the results.
 
-    Keys:  
-    fail  - Failed results  
-    pass - Passed results"""
+    Keys:
+        fail  - Failed results
+        pass - Passed results"""
     resultsPass = []
     resultsFail = []
     for results in data:
