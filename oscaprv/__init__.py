@@ -7,6 +7,13 @@ import bokeh.layouts
 import datetime
 
 
+class batch:
+    tests = []
+
+    def __init__(self, data):
+        self.tests = data
+
+
 def checkTest(test):
     """Checks if the test has failed or succeeded. Returns True if suceeded."""
     if test["preparation"] and test.get("initial_scan", False) and test.get("remediation", True) and test.get("final_scan", True):
