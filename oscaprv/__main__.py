@@ -2,7 +2,7 @@ import oscaprv
 import argparse
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Creates a graph of tests from json file.")
+    parser = argparse.ArgumentParser(description="Creates a graph from tests from json file.")
     parser.add_argument("files", help="JSON files or folder to get data from.", nargs="+")
     parser.add_argument("-o", "--output_file", nargs='?', default="Graph.html",
                         help="Specifies the output file for the graphs.")
