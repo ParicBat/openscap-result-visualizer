@@ -1,7 +1,7 @@
 # openscap-result-visualizer
 [![Build Status](https://scrutinizer-ci.com/g/ParicBat/openscap-result-visualizer/badges/build.png?b=master)](https://scrutinizer-ci.com/g/ParicBat/openscap-result-visualizer/build-status/master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ParicBat/openscap-result-visualizer/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/ParicBat/openscap-result-visualizer/?branch=master)
 
-This program takes result data from OpenSCAP and creates it into graphs.
+This program takes result data from OpenSCAP and creates a line graph.
 
 ## Arguments
 ### Required arguments
