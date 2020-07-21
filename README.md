@@ -15,5 +15,5 @@ This program takes result data from OpenSCAP and creates a line graph.
 `--output_file [OUTPUT_FILE]` or `-o [OUTPUT_FILE]`  
 - Specifies the output file for the graphs
 
-`-p` or `--progress`  
+`--progress` or `-p`  
 - Print out progress.
